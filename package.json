@@ -1,19 +1,21 @@
 {
-  "name": "capstone-ros2-web",
+  "name": "capstone-ros2-node-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/laurimaila/capstone-ros2-web.git"
-  },
-  "author": "",
+  "author": "lkmail@utu.fi",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/laurimaila/capstone-ros2-web/issues"
-  },
-  "homepage": "https://github.com/laurimaila/capstone-ros2-web#readme"
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.21",
+    "roslib": "^1.3.0"
+  }
 }
