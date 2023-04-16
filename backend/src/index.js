@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+// For streamer fs and path
+const fs = require('fs');
+const path = require('path');
 
 const WEBSOCKET_PORT = 3002;
 
@@ -80,3 +83,14 @@ app.listen(3000, () => {
     console.log('listening on port 3000');
 });
 
+// Video streamer on port 4000
+
+const streamer = express();
+
+streamer.get('/video', (req, res) => {
+    res.sendFile('Robots-640x480.mp4', { root: __dirname });
+});
+
+streamer.listen(4000, () => {
+    console.log('Listening on port 4000!')
+});
