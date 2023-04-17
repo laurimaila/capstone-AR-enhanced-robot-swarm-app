@@ -1,0 +1,26 @@
+html,
+body {
+    margin: 0;
+    overflow: visible;
+}
+
+.App {
+
+}
+
+.container {
+    position: relative;
+}
+
+.canvas {
+    position: absolute;
+
+    z-index: 10;
+}
+
+.label {
+    color: #FFF;
+    font-family: sans-serif;
+    padding: 2px;
+    background: rgba( 0, 0, 0, .6 );
+}
