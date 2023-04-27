@@ -1,0 +1,31 @@
+html,
+body {
+    margin: 0;
+    overflow: visible;
+}
+
+
+.container {
+    position: relative;
+}
+
+.video{
+     width: 600;
+     height: 400;
+}
+
+.canvas {
+    position: absolute;
+    outline: 1px dashed red;
+    z-index: 10;
+    width: 600;
+    height: 400;
+}
+
+
+.label {
+    color: #FFF;
+    font-family: sans-serif;
+    padding: 2px;
+    background: rgba( 0, 0, 0, .6 );
+}
