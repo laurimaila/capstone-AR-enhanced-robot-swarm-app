@@ -15,11 +15,10 @@ body {
 }
 
 .canvas {
-    position: absolute;
+    position: relative;
     outline: 1px dashed red;
     z-index: 10;
-    width: 600;
-    height: 400;
+
 }
 
 
