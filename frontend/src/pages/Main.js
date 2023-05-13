@@ -1,3 +1,4 @@
+import React, { useRef, useState, useEffect } from 'react'
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -5,9 +6,9 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
-import React, { useRef, useState, useEffect } from 'react'
 import Paper from '@mui/material/Paper';
 import "./Styles.css";
+import UpdatePos from './updatePos.js';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -87,8 +88,7 @@ const Canvas = props => {
 
         const render = () => {
             frameCount++
-            robot1.x = robot1.x + 2 * Math.sin(frameCount * 0.02)
-            robot1.y = robot1.y + Math.cos(frameCount * 0.02)
+            UpdatePos(robot1, frameCount)
             draw(context, frameCount)
 
             animationFrameId = window.requestAnimationFrame(render)
