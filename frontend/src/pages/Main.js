@@ -18,7 +18,9 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
+const targetPlane = {"x1":100, "y1":50, "x2":220, "y2":50, "x3":250, "y3":150, "x4":50, "y4":140};
 
+const robot1 = {"name":"Turtle01", "x":350, "y":300};
 
 function SwitchLabels() {
     return (
@@ -38,30 +40,34 @@ function GetImage() {
 const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, 640, 480)
     ctx.drawImage(GetImage(), 0, 0, 640, 480)
-    drawPlane(ctx)
-    ctx.fillStyle = '#FFFFFF'
-    ctx.fillRect(320 + 100 * Math.sin(frameCount * 0.02) * 2, 50 + 25 * Math.cos(frameCount * 0.02) * 2, 75, 20)
-    ctx.fillStyle = '#000000'
-    ctx.fillText('Turtle_01', 340 + 100 * Math.sin(frameCount * 0.02) * 2, 53 + 25 * Math.cos(frameCount * 0.02) * 2)
-    ctx.fillStyle = '#FF0000'
-    ctx.beginPath()
-    ctx.arc(320 + 100 * Math.sin(frameCount * 0.02) * 2, 380 + 25 * Math.cos(frameCount * 0.02) * 2, 10, 0, 2 * Math.PI)
-    ctx.fill()
+    drawPlane(ctx, targetPlane)
+    drawLabel(ctx, robot1, frameCount)
+
 
 }
 
-const drawPlane = (ctx) => {
+const drawPlane = (ctx, target) => {
     ctx.strokeStyle = "#D40000"
-    ctx.lineWidth = 10
+    ctx.lineWidth = 5
     ctx.beginPath()
-    ctx.moveTo(50, 50)
-    ctx.lineTo(120, 50)
-    ctx.lineTo(150, 100)
-    ctx.lineTo(5, 100)
-    ctx.lineTo(50, 50)
+    ctx.moveTo(target.x1, target.y1)
+    ctx.lineTo(target.x2, target.y2)
+    ctx.lineTo(target.x3, target.y3)
+    ctx.lineTo(target.x4, target.y4)
+    ctx.lineTo(target.x1, target.y1)
     ctx.stroke()
 }
 
+const drawLabel = (ctx, robot, frameCount) => {
+    ctx.fillStyle = '#FFFFFF'
+    ctx.fillRect(robot.x, robot.y + 10, 75, 20)
+    ctx.fillStyle = '#000000'
+    ctx.fillText('Turtle_01', robot.x + 20, robot.y + 10)
+    ctx.fillStyle = '#FF0000'
+    ctx.beginPath()
+    ctx.arc(robot.x, robot.y, 10, 0, 2 * Math.PI)
+    ctx.fill()
+}
 
 const Canvas = props => {
 
@@ -81,7 +87,10 @@ const Canvas = props => {
 
         const render = () => {
             frameCount++
+            robot1.x = robot1.x + 2 * Math.sin(frameCount * 0.02)
+            robot1.y = robot1.y + Math.cos(frameCount * 0.02)
             draw(context, frameCount)
+
             animationFrameId = window.requestAnimationFrame(render)
         }
         render()
@@ -108,7 +117,6 @@ export default function Main() {
                     </Box>
 
                 </Grid>
-
                 <Grid item xs={4}>
                     <Item>Turtle 01<SwitchLabels /></Item>
                 </Grid>
