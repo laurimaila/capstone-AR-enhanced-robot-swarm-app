@@ -44,7 +44,6 @@ const draw = (ctx, frameCount) => {
     drawPlane(ctx, targetPlane)
     drawLabel(ctx, robot1, frameCount)
 
-
 }
 
 const drawPlane = (ctx, target) => {
@@ -63,7 +62,7 @@ const drawLabel = (ctx, robot, frameCount) => {
     ctx.fillStyle = '#FFFFFF'
     ctx.fillRect(robot.x, robot.y + 10, 75, 20)
     ctx.fillStyle = '#000000'
-    ctx.fillText('Turtle_01', robot.x + 20, robot.y + 10)
+    ctx.fillText(robot.name, robot.x + 20, robot.y + 10)
     ctx.fillStyle = '#FF0000'
     ctx.beginPath()
     ctx.arc(robot.x, robot.y, 10, 0, 2 * Math.PI)
