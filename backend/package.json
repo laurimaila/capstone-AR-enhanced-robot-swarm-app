@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src"
+    "dev": "nodemon src",
+    "rosbridge": "ros2 launch rosbridge_server rosbridge_websocket_launch.xml"
 
   },
   "author": "lkmail@utu.fi",
