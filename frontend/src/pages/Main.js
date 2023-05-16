@@ -1,4 +1,5 @@
 import Container from '@mui/material/Container';
+import { createRoot } from 'react-dom/client'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import FormGroup from '@mui/material/FormGroup';
@@ -7,7 +8,7 @@ import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import React, { useRef, useState, useEffect } from 'react'
 import Paper from '@mui/material/Paper';
-import "./Styles.css";
+import "./Main.css";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -75,14 +76,19 @@ export default function Main() {
         <Container maxWidth="md">
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Box sx={{ my: 2, zIndex: 8, border: 1, width: '100%', display: "flex", justifyContent: 'center' }}>
+                    <Box sx={{ my: 2, zIndex: 8, border: 1, width: 1, display: "flex", justifyContent: 'center' }}>
                         <Canvas draw={draw}
+                            width="640"
+                            height="480"
                             className="canvas" />
-                        <video className="video" controls muted
+                        <video controls muted
+                            width="640"
+                            height="480"
                             autoPlay>
                             <source src="http://localhost:4000/video" type="video/mp4"></source>
 
-                        </video></Box>
+                        </video>
+                    </Box>
                 </Grid>
 
                 <Grid item xs={4}>
