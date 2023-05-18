@@ -30,7 +30,7 @@ export function SourceInput(source) {
             <Grid item xs={12} >
                 <Item>
                     <Typography variant="h6" gutterBottom 	>
-                        Source points (Arena coordinates)
+                        Source points (Arena coordinates in meters)
                     </Typography>
                 </Item>
             </Grid>
@@ -136,7 +136,7 @@ export function TargetInput(target) {
                 <Grid item xs={12} >
                     <Item>
                         <Typography variant="h6" gutterBottom 	>
-                            Target points (Image coordinates)
+                            Target points (Image coordinates in pixels)
                         </Typography>
                     </Item>
                 </Grid>
@@ -145,14 +145,14 @@ export function TargetInput(target) {
 
                         <TextField
                             label="Target x1"
-                            id="sx1"
+                            id="tx1"
                             defaultValue={target.x1}
                             size="small"
                             style = {{width: 100}}
                         />
                         <TextField
                             label="Target y1"
-                            id="sy1"
+                            id="ty1"
                             defaultValue={target.y1}
                             size="small"
                             style = {{width: 100}}
@@ -165,14 +165,14 @@ export function TargetInput(target) {
 
                         <TextField
                             label="Target x2"
-                            id="sx2"
+                            id="tx2"
                             defaultValue={target.x2}
                             size="small"
                             style = {{width: 100}}
                         />
                         <TextField
                             label="Target y2"
-                            id="sy2"
+                            id="ty2"
                             defaultValue={target.y2}
                             size="small"
                             style = {{width: 100}}
@@ -186,14 +186,14 @@ export function TargetInput(target) {
                     <Item>Bottom-right corner
                         <TextField
                             label="Target x3"
-                            id="sx3"
+                            id="tx3"
                             defaultValue={target.x3}
                             size="small"
                             style = {{width: 100}}
                         />
                         <TextField
                             label="Target y3"
-                            id="sy3"
+                            id="ty3"
                             defaultValue={target.y3}
                             size="small"
                             style = {{width: 100}}
@@ -205,14 +205,14 @@ export function TargetInput(target) {
                         Bottom-left corner
                         <TextField
                             label="Target x4"
-                            id="sx4"
+                            id="tx4"
                             defaultValue={target.x4}
                             size="small"
                             style = {{width: 100}}
                         />
                         <TextField
                             label="Target y4"
-                            id="sy4"
+                            id="ty4"
                             defaultValue={target.y4}
                             size="small"
                             style = {{width: 100}}

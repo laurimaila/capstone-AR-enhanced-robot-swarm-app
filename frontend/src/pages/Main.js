@@ -12,7 +12,7 @@ import "./Styles.css";
 import UpdatePos from './updatePos.js';
 import * as UI from './UI-elements.js';
 //import Image from 'mui-image'
-import arena from './arena-480x360.jpg';
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
