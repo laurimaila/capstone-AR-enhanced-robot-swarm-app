@@ -10,6 +10,8 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import "./Styles.css";
 import UpdatePos from './updatePos.js';
+import * as UI from './UI-elements.js';
+//import Image from 'mui-image'
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -25,6 +27,8 @@ const Item = styled(Paper)(({ theme }) => ({
 const targetPlane = {"x1":100, "y1":50, "x2":220, "y2":50, "x3":250, "y3":150, "x4":50, "y4":140};
 
 const robot1 = {"name":"Turtle01", "x":350, "y":300, "battery":88}
+const robot2 = {"name":"Turtle02", "x":150, "y":250, "battery":60}
+
 
 function SwitchLabels() {
 
@@ -41,95 +45,19 @@ function SwitchLabels() {
     );
 }
 
-function InputSource() {
-    return (
-        <Box
-            component="form"
-            sx={{
-                '& .MuiTextField-root': { m: 1},
-            }}
-            noValidate
-            autoComplete="off"
-        >
-            <Item>Top-left corner
-            <div>
-                <TextField
-                    label="Source x1"
-                    id="sx1"
-                    defaultValue="x1"
-                    size="small"
-                    style = {{width: 100}}
-                />
-                <TextField
-                    label="Source y1"
-                    id="sy1"
-                    defaultValue="y1"
-                    size="small"
-                    style = {{width: 100}}
-                />
-            </div>
-            </Item>
-            <div>
-                <TextField
-                    label="Source x2"
-                    id="sx2"
-                    defaultValue="x2"
-                    size="small"
-                    helperText="Top-right corner"
-                    style = {{width: 100}}
-                />
-                <TextField
-                    label="Source y2"
-                    id="sy2"
-                    defaultValue="y2"
-                    size="small"
-                    helperText="Top-right corner"
-                    style = {{width: 100}}
-                />
-            </div>
-            <div>
-                <TextField
-                    label="Source x3"
-                    id="sx3"
-                    defaultValue="x3"
-                    size="small"
-                    helperText="Bottom-right corner"
-                    style = {{width: 100}}
-                />
-                <TextField
-                    label="Source y3"
-                    id="sy3"
-                    defaultValue="y3"
-                    size="small"
-                    helperText="Bottom-right corner"
-                    style = {{width: 100}}
-                />
-                <TextField
-                    label="Source x4"
-                    id="sx4"
-                    defaultValue="x4"
-                    size="small"
-                    helperText="Bottom-left corner"
-                    style = {{width: 100}}
-                />
-                <TextField
-                    label="Source y4"
-                    id="sy4"
-                    defaultValue="y4"
-                    size="small"
-                    helperText="Bottom-left corner"
-                    style = {{width: 100}}
-                />
-            </div>
-        </Box>
-    );
-}
 
-const draw = (ctx, frameCount, image) => {
-    ctx.clearRect(0, 0, 640, 480)
-    ctx.drawImage(image, 0, 0, 640, 480)
-    drawPlane(ctx, targetPlane)
-    drawLabel(ctx, robot1, frameCount)
+const draw = (ctx, frameCount) => {
+    let image = new Image()
+    image.src = "http://192.168.1.231/image.jpg?" //+ frameCount;
+
+
+        image.onload = function(){
+            ctx.clearRect(0, 0, 640, 480)
+            ctx.drawImage(image, 0, 0, 640, 480)
+            drawPlane(ctx, targetPlane)
+            drawLabel(ctx, robot1, frameCount)
+            drawLabel(ctx, robot2, frameCount)
+        }
 
 }
 
@@ -172,20 +100,16 @@ const Canvas = props => {
         let frameCount = 0
         let animationFrameId
 
-        function GetImage() {
-            let image = new Image();
-            image.src = "http://192.168.1.231/image.jpg";
-            return image;
-        }
+
 
         const render = () => {
             frameCount++
             UpdatePos(robot1, frameCount)
-            setInterval(function(){
-            draw(context, frameCount, GetImage())
-            },1000/15);
+            UpdatePos(robot2, frameCount)
+            draw(context, frameCount)
             animationFrameId = window.requestAnimationFrame(render)
         }
+
         render()
 
         return () => {
@@ -199,18 +123,16 @@ const Canvas = props => {
 
 export default function Main() {
 
-
-
     return (
         <Container maxWidth="md">
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Box sx={{ my: 2, zIndex: 8, border: 1,  display: 'flex', justifyContent: 'center'}}>
                         <Canvas draw={draw}
-                                className="canvas"  />
+                                className="canvas" sx={{zIndex: 9}}/>
+
 
                     </Box>
-
                 </Grid>
                 <Grid item xs={4} >
                     <Item>{robot1.name}
@@ -220,13 +142,16 @@ export default function Main() {
 
                 </Grid>
                 <Grid item xs={4}>
-                    <Item>Turtle 02<SwitchLabels /></Item>
+                        <Item>{robot2.name}
+                        <Item> x = {robot2.x} /  y = {robot2.y}</Item>
+                        <Item> Battery = {robot2.battery} %</Item>
+                        </Item>
                 </Grid>
                 <Grid item xs={4}>
                     <Item>Turtle 03<SwitchLabels /></Item>
                 </Grid>
                 <Grid item xs={6} >
-                    {InputSource()}
+                    {UI.SourceInput()}
                 </Grid>
             </Grid>
         </Container>
