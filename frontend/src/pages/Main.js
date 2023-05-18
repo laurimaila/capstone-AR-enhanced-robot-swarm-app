@@ -12,6 +12,7 @@ import "./Styles.css";
 import UpdatePos from './updatePos.js';
 import * as UI from './UI-elements.js';
 //import Image from 'mui-image'
+import arena from './arena-480x360.jpg';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,7 +25,8 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-const targetPlane = {"x1":100, "y1":50, "x2":220, "y2":50, "x3":250, "y3":150, "x4":50, "y4":140};
+const targetPlane = {"x1":104, "y1":177, "x2":321, "y2":159, "x3":322, "y3":210, "x4":55, "y4":232};
+const sourcePlane = {"x1":0, "y1":0, "x2":4, "y2":0, "x3":4, "y3":2, "x4":0, "y4":2};
 
 const robot1 = {"name":"Turtle01", "x":350, "y":300, "battery":88}
 const robot2 = {"name":"Turtle02", "x":150, "y":250, "battery":60}
@@ -45,13 +47,19 @@ function SwitchLabels() {
     );
 }
 
+function getCursorPosition(canvas, event) {
+    const rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+    console.log("x: " + x + " y: " + y)
+}
 
 const draw = (ctx, frameCount) => {
     let image = new Image()
-    image.src = "http://192.168.1.231/image.jpg?" //+ frameCount;
+    //image.src = "http://192.168.1.231/image.jpg?" //+ frameCount;
+    image.src = "/arena-480x360.jpg";
 
-
-        image.onload = function(){
+    image.onload = function(){
             ctx.clearRect(0, 0, 640, 480)
             ctx.drawImage(image, 0, 0, 640, 480)
             drawPlane(ctx, targetPlane)
@@ -86,7 +94,7 @@ const drawLabel = (ctx, robot, frameCount) => {
 }
 
 const Canvas = props => {
-
+    const [locations, setLocations] = React.useState([])
     const { draw, ...rest } = props
     const canvasRef = useRef(null)
 
@@ -99,7 +107,9 @@ const Canvas = props => {
         const context = canvas.getContext('2d')
         let frameCount = 0
         let animationFrameId
-
+        canvas.addEventListener('mousedown', function(e) {
+            getCursorPosition(canvas, e)
+        })
 
 
         const render = () => {
@@ -150,8 +160,11 @@ export default function Main() {
                 <Grid item xs={4}>
                     <Item>Turtle 03<SwitchLabels /></Item>
                 </Grid>
-                <Grid item xs={6} >
-                    {UI.SourceInput()}
+                <Grid item xs={12} >
+                    {UI.SourceInput(sourcePlane)}
+                </Grid>
+                <Grid item xs={12} >
+                    {UI.TargetInput(targetPlane)}
                 </Grid>
             </Grid>
         </Container>
