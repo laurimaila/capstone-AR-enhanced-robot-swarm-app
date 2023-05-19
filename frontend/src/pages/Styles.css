@@ -4,19 +4,23 @@ body {
     overflow: visible;
 }
 
-.App {
-
-}
 
 .container {
     position: relative;
 }
 
-.canvas {
-    position: absolute;
-
-    z-index: 10;
+.video{
+     width: 600;
+     height: 400;
 }
+
+.canvas {
+    position: relative;
+    outline: 1px dashed red;
+    z-index: 10;
+
+}
+
 
 .label {
     color: #FFF;
