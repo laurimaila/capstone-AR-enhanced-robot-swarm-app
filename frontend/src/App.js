@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NoPage from './pages/NoPage';
 import Header from './pages/Header';
 import Main from './pages/Main';
-import Settings from './pages/Settings';
+import Info from './pages/Info';
 import Footer from './pages/Footer';
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
       <Routes>
         <Route path="/"/>
         <Route index element={<Main />} />
-        <Route path="settings" element={<Settings />} />
+        <Route path="info" element={<Info />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
       <Footer />

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -25,7 +25,7 @@ export default function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             RoboTrack
           </Typography>
-          <Button component={Link} to="/settings" color="inherit">Settings</Button>
+          <Button component={Link} to="/info" color="inherit">Information</Button>
         </Toolbar>
       </AppBar>
     </Box>

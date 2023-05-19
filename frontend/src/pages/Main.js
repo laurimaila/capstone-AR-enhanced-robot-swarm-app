@@ -5,12 +5,12 @@ import Grid from '@mui/material/Grid';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import "./Styles.css";
+import "./Main.css";
 import UpdatePos from './updatePos.js';
 import * as UI from './UI-elements.js';
+import InfoBox from './Infobox';
 //import Image from 'mui-image'
 
 
@@ -130,6 +130,21 @@ const Canvas = props => {
     return <canvas ref={canvasRef} width={640} height={480} {...rest} />
 }
 
+/*
+<Box sx={{ my: 2, zIndex: 8, border: 1, width: 1, display: "flex", justifyContent: 'center' }}>
+                        <Canvas draw={draw}
+                            width="640"
+                            height="480"
+                            className="canvas" />
+                        <video controls muted
+                            width="640"
+                            height="480"
+                            autoPlay>
+                            <source src="http://localhost:4000/video" type="video/mp4"></source>
+
+                        </video>
+                    </Box>
+*/
 
 export default function Main() {
 
@@ -137,6 +152,7 @@ export default function Main() {
         <Container maxWidth="md">
             <Grid container spacing={2}>
                 <Grid item xs={12}>
+                    
                     <Box sx={{ my: 2, zIndex: 8, border: 1,  display: 'flex', justifyContent: 'center'}}>
                         <Canvas draw={draw}
                                 className="canvas" sx={{zIndex: 9}}/>
@@ -144,19 +160,9 @@ export default function Main() {
 
                     </Box>
                 </Grid>
-                <Grid item xs={4} >
-                    <Item>{robot1.name}
-                    <Item> x = {robot1.x} /  y = {robot1.y}</Item>
-                    <Item> Battery = {robot1.battery} %</Item>
-                    </Item>
-
-                </Grid>
-                <Grid item xs={4}>
-                        <Item>{robot2.name}
-                        <Item> x = {robot2.x} /  y = {robot2.y}</Item>
-                        <Item> Battery = {robot2.battery} %</Item>
-                        </Item>
-                </Grid>
+                
+                <InfoBox />
+        
                 <Grid item xs={4}>
                     <Item>Turtle 03<SwitchLabels /></Item>
                 </Grid>
@@ -170,3 +176,16 @@ export default function Main() {
         </Container>
     );
 }
+
+
+
+/*
+<Grid item xs={4} >
+                    <Item>{robot1.name}
+                    <Item> x = {robot1.x} /  y = {robot1.y}</Item>
+                    <Item> Battery = {robot1.battery} %</Item>
+                    </Item>
+
+                </Grid>
+
+*/
