@@ -8,7 +8,6 @@ import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import "./Main.css";
-import UpdatePos from './updatePos.js';
 import * as UI from './UI-elements.js';
 import InfoBox from './Infobox';
 //import Image from 'mui-image'
@@ -25,11 +24,8 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-const targetPlane = {"x1":104, "y1":177, "x2":321, "y2":159, "x3":322, "y3":210, "x4":55, "y4":232};
-const sourcePlane = {"x1":0, "y1":0, "x2":4, "y2":0, "x3":4, "y3":2, "x4":0, "y4":2};
-
-const robot1 = {"name":"Turtle01", "x":350, "y":300, "battery":88}
-const robot2 = {"name":"Turtle02", "x":150, "y":250, "battery":60}
+const targetPlane = { "x1": 104, "y1": 177, "x2": 321, "y2": 159, "x3": 322, "y3": 210, "x4": 55, "y4": 232 };
+const sourcePlane = { "x1": 0, "y1": 0, "x2": 4, "y2": 0, "x3": 4, "y3": 2, "x4": 0, "y4": 2 };
 
 
 function SwitchLabels() {
@@ -54,20 +50,7 @@ function getCursorPosition(canvas, event) {
     console.log("x: " + x + " y: " + y)
 }
 
-const draw = (ctx, frameCount) => {
-    let image = new Image()
-    //image.src = "http://192.168.1.231/image.jpg?" //+ frameCount;
-    image.src = "/arena-480x360.jpg";
 
-    image.onload = function(){
-            ctx.clearRect(0, 0, 640, 480)
-            ctx.drawImage(image, 0, 0, 640, 480)
-            drawPlane(ctx, targetPlane)
-            drawLabel(ctx, robot1, frameCount)
-            drawLabel(ctx, robot2, frameCount)
-        }
-
-}
 
 const drawPlane = (ctx, target) => {
     ctx.strokeStyle = "#D40000"
@@ -81,51 +64,71 @@ const drawPlane = (ctx, target) => {
     ctx.stroke()
 }
 
-const drawLabel = (ctx, robot, frameCount) => {
+const drawLabel = (ctx, singeRobotData, robotName) => {
+    const xcoord = singeRobotData.pose.position.x * 100
+    const ycoord = singeRobotData.pose.position.y * 100
+
     ctx.fillStyle = '#FFFFFF'
-    ctx.fillRect(robot.x, robot.y - 10, 75, 50)
+    ctx.fillRect(xcoord, ycoord - 10, 75, 50)
     ctx.fillStyle = '#000000'
-    ctx.fillText(robot.name, robot.x + 20, robot.y + 3)
-    ctx.fillText(robot.x, robot.x + 20, robot.y + 18)
+    ctx.fillText(robotName, xcoord + 20, ycoord + 3)
+    ctx.fillText(xcoord.toFixed(0), xcoord + 20, ycoord + 18)
+    ctx.fillText(ycoord.toFixed(0), xcoord + 20, ycoord + 30)
     ctx.fillStyle = '#FF0000'
     ctx.beginPath()
-    ctx.arc(robot.x, robot.y, 10, 0, 2 * Math.PI)
+    ctx.arc(xcoord, ycoord, 10, 0, 2 * Math.PI)
     ctx.fill()
 }
 
+
 const Canvas = props => {
-    const [locations, setLocations] = React.useState([])
-    const { draw, ...rest } = props
+    const { robotData, ...rest } = props
     const canvasRef = useRef(null)
 
 
-
-
     useEffect(() => {
+        if (robotData != null) {
+            const canvas = canvasRef.current
+            const context = canvas.getContext('2d')
+            let animationFrameId
+            canvas.addEventListener('mousedown', function (e) {
+                getCursorPosition(canvas, e)
+            })
 
-        const canvas = canvasRef.current
-        const context = canvas.getContext('2d')
-        let frameCount = 0
-        let animationFrameId
-        canvas.addEventListener('mousedown', function(e) {
-            getCursorPosition(canvas, e)
-        })
+            const draw = (ctx, robotData) => {
+                let image = new Image()
+                //image.src = "http://192.168.1.231/image.jpg?" //+ frameCount;
+                image.src = "/arena-480x360.jpg";
 
+                image.onload = function () {
+                    ctx.clearRect(0, 0, 640, 480)
+                    ctx.drawImage(image, 0, 0, 640, 480)
+                    drawPlane(ctx, targetPlane)
+                    for (let i = 0; i < robotData.length; i++) {
+                        if (robotData[i] != null) {
+                            drawLabel(ctx, robotData[i], `Robot${i + 1}`)
+                        }
+                    }
+                }
 
-        const render = () => {
-            frameCount++
-            UpdatePos(robot1, frameCount)
-            UpdatePos(robot2, frameCount)
-            draw(context, frameCount)
-            animationFrameId = window.requestAnimationFrame(render)
+            }
+
+            const renderCanv = () => {
+                draw(context, robotData)
+                animationFrameId = window.requestAnimationFrame(renderCanv)
+            }
+
+            renderCanv()
+            console.log("rendering canvas")
+
+            return () => {
+                window.cancelAnimationFrame(animationFrameId)
+            }
         }
+    }, [robotData])
 
-        render()
 
-        return () => {
-            window.cancelAnimationFrame(animationFrameId)
-        }
-    }, [draw])
+
 
     return <canvas ref={canvasRef} width={640} height={480} {...rest} />
 }
@@ -148,24 +151,37 @@ const Canvas = props => {
 
 export default function Main() {
 
+    const [robotData, setRobotData] = useState(null)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetch('http://localhost:3005/all')
+                .then(response => response.json())
+                .then(data => setRobotData(data))
+        }, 50);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <Container maxWidth="md">
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    
-                    <Box sx={{ my: 2, zIndex: 8, border: 1,  display: 'flex', justifyContent: 'center'}}>
-                        <Canvas draw={draw}
-                                className="canvas" sx={{zIndex: 9}}/>
+
+                    <Box sx={{ my: 2, zIndex: 8, display: 'flex', justifyContent: 'center' }}>
+                        <Canvas robotData={robotData}
+                            className="canvas" sx={{ zIndex: 9 }} />
 
 
                     </Box>
                 </Grid>
-                
-                <InfoBox />
-        
+
+                {robotData != null ? robotData.map((singleRobotData, i) => <InfoBox singleRobotData={singleRobotData} robotName={`Robot${i + 1}`} index={i} key={i} />) : null}
+
+{/*
                 <Grid item xs={4}>
                     <Item>Turtle 03<SwitchLabels /></Item>
                 </Grid>
+*/}
                 <Grid item xs={12} >
                     {UI.SourceInput(sourcePlane)}
                 </Grid>

@@ -25,7 +25,7 @@ export default function Header() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             RoboTrack
           </Typography>
-          <Button component={Link} to="/info" color="inherit">Information</Button>
+          <Button component={Link} to="/info" color="inherit">Info</Button>
         </Toolbar>
       </AppBar>
     </Box>

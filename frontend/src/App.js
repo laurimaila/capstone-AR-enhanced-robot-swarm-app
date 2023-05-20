@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import NoPage from './pages/NoPage';
 import Header from './pages/Header';
 import Main from './pages/Main';

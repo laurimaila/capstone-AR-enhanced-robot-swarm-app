@@ -7,7 +7,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import UpdatePos from './updatePos.js';
 import * as UI from './UI-elements.js';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -18,15 +17,16 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const InfoBox = () => {
+const InfoBox = ({singleRobotData, robotName, index}) => {
+    if(singleRobotData != null){
     return (
         <Grid item xs={4} >
-            <Item>{"huut"}
-                <Item> x = {10} /  y = {10}</Item>
-                <Item> Battery = {60} %</Item>
+            <Item>{robotName}
+                <Item> x = {singleRobotData.pose.position.x.toFixed(0)} /  y = {singleRobotData.pose.position.y.toFixed(0)}</Item>
+                <Item> Battery = {44+(13*index)} %</Item>
             </Item>
-
         </Grid>);
+    }
 };
 
 export default InfoBox;

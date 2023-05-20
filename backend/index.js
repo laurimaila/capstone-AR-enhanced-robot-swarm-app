@@ -160,8 +160,8 @@ robot5listener.subscribe((message) => {
     robotData[4] = message;
 });
 
-app.listen(3000, () => {
-    console.log('ROS: Listening on port 3000');
+app.listen(3005, () => {
+    console.log('ROS: Listening on port 3005');
 });
 
 // Video streamer on port 4000
