@@ -12,7 +12,7 @@ import * as UI from './UI-elements.js';
 import InfoBox from './Infobox';
 //import Image from 'mui-image'
 
-
+const PerspT = require('perspective-transform');
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -23,10 +23,13 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 
-
-const targetPlane = { "x1": 104, "y1": 177, "x2": 321, "y2": 159, "x3": 322, "y3": 210, "x4": 55, "y4": 232 };
 const sourcePlane = { "x1": 0, "y1": 0, "x2": 4, "y2": 0, "x3": 4, "y3": 2, "x4": 0, "y4": 2 };
+const targetPlane = { "x1": 104, "y1": 177, "x2": 321, "y2": 159, "x3": 322, "y3": 210, "x4": 55, "y4": 232 };
 
+
+const srcCorners = [sourcePlane.x1, sourcePlane.y1, sourcePlane.x2, sourcePlane.y2, sourcePlane.x3, sourcePlane.y3, sourcePlane.x4, sourcePlane.y4];
+const dstCorners = [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.y2, targetPlane.x3, targetPlane.y3, targetPlane.x4, targetPlane.y4];
+const perspT = PerspT(srcCorners, dstCorners);
 
 function SwitchLabels() {
 
@@ -65,18 +68,19 @@ const drawPlane = (ctx, target) => {
 }
 
 const drawLabel = (ctx, singeRobotData, robotName) => {
-    const xcoord = singeRobotData.pose.position.x * 100
-    const ycoord = singeRobotData.pose.position.y * 100
+    const coords = perspT.transform(singeRobotData.pose.position.x, singeRobotData.pose.position.y)
+    //const xcoord = singeRobotData.pose.position.x * 100
+    //const ycoord = singeRobotData.pose.position.y * 100
 
     ctx.fillStyle = '#FFFFFF'
-    ctx.fillRect(xcoord, ycoord - 10, 75, 50)
+    ctx.fillRect(coords[0], coords[1] - 10, 75, 50)
     ctx.fillStyle = '#000000'
-    ctx.fillText(robotName, xcoord + 20, ycoord + 3)
-    ctx.fillText(xcoord.toFixed(0), xcoord + 20, ycoord + 18)
-    ctx.fillText(ycoord.toFixed(0), xcoord + 20, ycoord + 30)
+    ctx.fillText(robotName, coords[0]+ 20, coords[1] + 3)
+    ctx.fillText(singeRobotData.pose.position.x.toFixed(2), coords[0] + 20, coords[1] + 18)
+    ctx.fillText(singeRobotData.pose.position.y.toFixed(2), coords[0] + 20, coords[1] + 30)
     ctx.fillStyle = '#FF0000'
     ctx.beginPath()
-    ctx.arc(xcoord, ycoord, 10, 0, 2 * Math.PI)
+    ctx.arc(coords[0], coords[1], 10, 0, 2 * Math.PI)
     ctx.fill()
 }
 
