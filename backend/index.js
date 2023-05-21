@@ -87,6 +87,10 @@ app.get('/all', (req, res) => {
     res.send(robotData);
 });
 
+app.get('/test', (req, res) => {
+    res.send([null,null,{"header":{"stamp":{"sec":1677069530,"nanosec":479717889},"frame_id":"world"},"pose":{"position":{"x":5.141965389251709,"y":2.661393642425537,"z":0.12100226432085037},"orientation":{"x":-0.004172781016677618,"y":-0.0011139733251184225,"z":-0.9203209280967712,"w":-0.39114028215408325}}},{"header":{"stamp":{"sec":1677069530,"nanosec":479683305},"frame_id":"world"},"pose":{"position":{"x":2.7088356018066406,"y":3.23047137260437,"z":0.09472611546516418},"orientation":{"x":-0.0060625262558460236,"y":-0.0023461098317056894,"z":0.9990562200546265,"w":0.042947255074977875}}},null,null,null,null,null,null]);
+});
+
 app.get('/1', (req, res) => {
     res.send(robotData[0]);
 });

@@ -149,15 +149,17 @@ const Canvas = props => {
                     </Box>
 */
 
+
 export default function Main() {
 
     const [robotData, setRobotData] = useState(null)
 
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch('http://localhost:3005/test')
+            fetch('http://localhost:3005/all')
                 .then(response => response.json())
                 .then(data => setRobotData(data))
+                
         }, 50);
         return () => clearInterval(interval);
     }, []);
