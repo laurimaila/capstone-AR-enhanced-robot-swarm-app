@@ -2,26 +2,15 @@ import React, { useRef, useState, useEffect } from 'react'
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+//import FormGroup from '@mui/material/FormGroup';
+//import FormControlLabel from '@mui/material/FormControlLabel';
+//import Switch from '@mui/material/Switch';
 import * as UI from './UI-elements.js';
 import InfoBox from './Infobox';
 //import Image from 'mui-image'
 //import "./Main.css";
 
 const PerspT = require('perspective-transform');
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
-
 
 const sourcePlane = { "x1": 0, "y1": 0, "x2": 4, "y2": 0, "x3": 4, "y3": 2, "x4": 0, "y4": 2 };
 const targetPlane = { "x1": 104, "y1": 177, "x2": 321, "y2": 159, "x3": 322, "y3": 210, "x4": 55, "y4": 232 };
@@ -31,6 +20,7 @@ const srcCorners = [sourcePlane.x1, sourcePlane.y1, sourcePlane.x2, sourcePlane.
 const dstCorners = [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.y2, targetPlane.x3, targetPlane.y3, targetPlane.x4, targetPlane.y4];
 const perspT = PerspT(srcCorners, dstCorners);
 
+/*
 function SwitchLabels() {
 
     const [checked, setChecked] = useState(false);
@@ -45,6 +35,7 @@ function SwitchLabels() {
         </FormGroup>
     );
 }
+*/
 
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect()
@@ -161,7 +152,7 @@ export default function Main() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch('http://localhost:3005/test')
+            fetch('http://localhost:3005/all')
                 .then(response => response.json())
                 .then(data => setRobotData(data))
                
