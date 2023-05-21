@@ -97,7 +97,7 @@ const Canvas = props => {
 
             const draw = (ctx, robotData) => {
                 let image = new Image()
-                //image.src = "http://192.168.1.231/image.jpg?" //+ frameCount;
+                //image.src = "http://192.168.1.231/image.jpg?" + Date.now();
                 image.src = "/arena-480x360.jpg";
 
                 image.onload = function () {
@@ -108,6 +108,7 @@ const Canvas = props => {
                         if (robotData[i] != null) {
                             drawLabel(ctx, robotData[i], `Robot${i + 1}`)
                         }
+                        else {console.log("no robot data")}
                     }
                 }
 
@@ -156,11 +157,11 @@ export default function Main() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch('http://localhost:3005/all')
+            fetch('http://localhost:3005/test')
                 .then(response => response.json())
                 .then(data => setRobotData(data))
                 
-        }, 50);
+        }, 200);
         return () => clearInterval(interval);
     }, []);
 
