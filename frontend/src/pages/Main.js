@@ -155,7 +155,7 @@ export default function Main() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch('http://localhost:3005/all')
+            fetch('http://localhost:3005/test')
                 .then(response => response.json())
                 .then(data => setRobotData(data))
         }, 50);
