@@ -22,7 +22,7 @@ const InfoBox = ({singleRobotData, robotName, index}) => {
     return (
         <Grid item xs={4} >
             <Item>{robotName}
-                <Item> x = {singleRobotData.pose.position.x.toFixed(0)} /  y = {singleRobotData.pose.position.y.toFixed(0)}</Item>
+                <Item> x = {singleRobotData.pose.position.x.toFixed(2)} /  y = {singleRobotData.pose.position.y.toFixed(2)}</Item>
                 <Item> Battery = {44+(13*index)} %</Item>
             </Item>
         </Grid>);
