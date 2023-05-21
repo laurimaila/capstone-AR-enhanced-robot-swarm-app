@@ -3,16 +3,19 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import { createTheme } from '@mui/material/styles';
-import { green, purple } from '@mui/material/colors';
 import { ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
+    mode: 'light',
     primary: {
-      main: purple[500],
+      main: '#546E7A',
     },
     secondary: {
-      main: green[500],
+      main: '#E53935',
+    },
+    background: {
+      paper: '#CFD8DC',
     },
   },
 });

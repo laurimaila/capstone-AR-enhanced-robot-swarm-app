@@ -1,14 +1,27 @@
-import React from 'react';
-import './Footer.css';
-
+import React, { FC, ReactElement } from "react";
+import { Box, Container, Grid, Typography } from "@mui/material";
+//import "./Footer.css";
 const Footer = () => {
     return (
-        <div className="footer">
-            <div className="footer-inner">
-                <p>Team VolunTIERS</p>
-                <p>Capstone 2023</p>
-            </div>
-        </div>
+        <Box
+            sx={{
+                width: "100%",
+                height: "auto",
+                backgroundColor: "primary.light",
+                paddingTop: "1rem",
+                paddingBottom: "1rem",
+            }}
+        >
+            <Container maxWidth="lg">
+                <Grid container direction="column" alignItems="center">
+                    <Grid item xs={12}>
+                        <Typography color="common.white" variant="subtitle1">
+                            {`Capstone team VolunTIERS | ${new Date().getFullYear()}`}
+                        </Typography>
+                    </Grid>
+                </Grid>
+            </Container>
+        </Box>
     );
 };
 
