@@ -7,10 +7,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import "./Main.css";
 import * as UI from './UI-elements.js';
 import InfoBox from './Infobox';
 //import Image from 'mui-image'
+//import "./Main.css";
 
 const PerspT = require('perspective-transform');
 
@@ -164,8 +164,9 @@ export default function Main() {
             fetch('http://localhost:3005/test')
                 .then(response => response.json())
                 .then(data => setRobotData(data))
-                
-        }, 200);
+               
+        }, 100);
+
         return () => clearInterval(interval);
     }, []);
 
@@ -182,7 +183,7 @@ export default function Main() {
                     </Box>
                 </Grid>
 
-                {robotData != null ? robotData.map((singleRobotData, i) => <InfoBox singleRobotData={singleRobotData} robotName={`Robot${i + 1}`} index={i} key={i} />) : null}
+                {robotData && robotData.map((singleRobotData, i) => <InfoBox singleRobotData={singleRobotData} robotName={`Robot${i + 1}`} index={i} key={i} />)}
 
 {/*
                 <Grid item xs={4}>
