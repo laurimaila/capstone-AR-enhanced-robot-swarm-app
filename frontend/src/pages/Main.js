@@ -12,13 +12,14 @@ import InfoBox from './Infobox';
 
 const PerspT = require('perspective-transform');
 
-const sourcePlane = { "x1": 0, "y1": 0, "x2": 4, "y2": 0, "x3": 4, "y3": 2, "x4": 0, "y4": 2 };
+const sourcePlane = { "x1": 0, "y1": 0, "x2": 0, "y2": 4, "x3": 2, "y3": 4, "x4": 2, "y4": 0 };
 const targetPlane = { "x1": 104, "y1": 177, "x2": 321, "y2": 159, "x3": 322, "y3": 210, "x4": 55, "y4": 232 };
 
 
 const srcCorners = [sourcePlane.x1, sourcePlane.y1, sourcePlane.x2, sourcePlane.y2, sourcePlane.x3, sourcePlane.y3, sourcePlane.x4, sourcePlane.y4];
 const dstCorners = [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.y2, targetPlane.x3, targetPlane.y3, targetPlane.x4, targetPlane.y4];
 const perspT = PerspT(srcCorners, dstCorners);
+
 
 /*
 function SwitchLabels() {
@@ -36,6 +37,7 @@ function SwitchLabels() {
     );
 }
 */
+
 
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect()
@@ -92,8 +94,8 @@ const Canvas = props => {
 
             const draw = (ctx, robotData) => {
                 let image = new Image()
-                //image.src = "http://192.168.1.231/image.jpg?" + Date.now();
-                image.src = "/arena-480x360.jpg";
+                image.src = "http://192.168.1.5/image.jpg"
+                //image.src = "/arena-480x360.jpg";
 
                 image.onload = function () {
                     ctx.clearRect(0, 0, 640, 480)
@@ -129,6 +131,13 @@ const Canvas = props => {
     return <canvas ref={canvasRef} width={640} height={480} {...rest} />
 }
 
+const Canvas2 = props => {
+    const canvas2Ref = useRef(null)
+
+    return <img ref={canvas2Ref} src={"http://192.168.1.5/video.mjpg"} width={640} height={480}  />
+}
+
+
 /*
 <Box sx={{ my: 2, zIndex: 8, border: 1, width: 1, display: "flex", justifyContent: 'center' }}>
                         <Canvas draw={draw}
@@ -152,7 +161,7 @@ export default function Main() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch('http://localhost:3005/all')
+            fetch('http://localhost:3005/test')
                 .then(response => response.json())
                 .then(data => setRobotData(data))
                
@@ -165,12 +174,9 @@ export default function Main() {
         <Container maxWidth="md">
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-
-                    <Box sx={{ my: 2, zIndex: 8, display: 'flex', justifyContent: 'center' }}>
-                        <Canvas robotData={robotData}
-                            className="canvas" sx={{ zIndex: 9 }} />
-
-
+                    <Box sx={{ my: 2, zIndex: 4, display: 'flex', justifyContent: 'center' }}>
+                        <Canvas2 className="canvas2" sx={{ zIndex: 6}}/>
+                        <Canvas robotData={robotData} className="canvas" sx={{ zIndex: 9}}/>
                     </Box>
                 </Grid>
 

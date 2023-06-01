@@ -10,16 +10,22 @@ body {
 }
 
 .video{
-     width: 600;
-     height: 400;
+
 }
 
 .canvas {
     position: absolute;
     outline: 1px dashed red;
-    z-index: 10;
-    width: 600;
-    height: 400;
+    z-index: 9;
+
+}
+
+.canvas2 {
+    position: absolute;
+    outline: 1px dashed blue;
+    z-index: 6;
+
+
 }
 
 
