@@ -113,32 +113,32 @@ app.get('/5', (req, res) => {
 
 const robot1listener = new ROSLIB.Topic({
     ros,
-    name: "/vrpn_client_node/turtle1/pose",
+    name: "/vrpn_client_node/turtlebot1/pose",
     messageType: "geometry_msgs/msg/PoseStamped",
 });
 
 const robot2listener = new ROSLIB.Topic({
     ros,
-    name: "/vrpn_client_node/turtle2/pose",
+    name: "/vrpn_client_node/turtlebot2/pose",
     messageType: "geometry_msgs/msg/PoseStamped",
 });
 
 const robot3listener = new ROSLIB.Topic({
     ros,
-    name: "/vrpn_client_node/turtle3/pose",
+    name: "/vrpn_client_node/turtlebot3/pose",
     messageType: "geometry_msgs/msg/PoseStamped",
 });
 
 const robot4listener = new ROSLIB.Topic({
     ros,
-    name: "/vrpn_client_node/turtle4/pose",
+    name: "/vrpn_client_node/turtlebot4/pose",
     messageType: "geometry_msgs/msg/PoseStamped",
 });
 
 
 const robot5listener = new ROSLIB.Topic({
     ros,
-    name: "/vrpn_client_node/turtle5/pose",
+    name: "/vrpn_client_node/turtlebot5/pose",
     messageType: "geometry_msgs/msg/PoseStamped",
 });
 

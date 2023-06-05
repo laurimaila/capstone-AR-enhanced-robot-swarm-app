@@ -19,7 +19,7 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={5}>
           <Grid item xs={12} sm={4}>
-            <Typography  variant="h6" color={common.white} gutterBottom>
+            <Typography variant="h6" color={common.white} gutterBottom>
               Team VolunTIERS
             </Typography>
             <Typography variant="body2" color={common.white}>

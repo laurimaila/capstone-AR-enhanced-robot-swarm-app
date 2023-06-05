@@ -10,15 +10,15 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
-      
+
       <Routes>
-        <Route path="/"/>
+        <Route path="/" />
         <Route index element={<Main />} />
         <Route path="info" element={<Info />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
       <Footer />
-      
+
     </BrowserRouter>
   );
 }

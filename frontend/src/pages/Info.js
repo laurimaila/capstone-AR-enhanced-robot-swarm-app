@@ -1,5 +1,5 @@
 const Info = () => {
-    return <h1>Information here</h1>;
+    return <h1>TODO: Information about the project</h1>;
 };
 
 export default Info;
