@@ -4,10 +4,12 @@ import Grid from '@mui/material/Grid';
 //import FormGroup from '@mui/material/FormGroup';
 //import FormControlLabel from '@mui/material/FormControlLabel';
 //import Switch from '@mui/material/Switch';
-import * as UI from './UI-elements.js';
 import InfoBox from './Infobox';
-//import Image from 'mui-image'
+import TransformAcc from './TransformAcc';
 import "./Main.css";
+import TextField from "@mui/material/TextField";
+import {styled} from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
 
 const PerspT = require('perspective-transform');
 
@@ -20,6 +22,14 @@ const dstCorners = [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.
 const perspT = PerspT(srcCorners, dstCorners);
 
 
+
+const Item = styled(Paper)(({ theme }) => ({
+    //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 /*
 function SwitchLabels() {
 
@@ -36,13 +46,13 @@ function SwitchLabels() {
     );
 }
 */
-
-
-function getCursorPosition(canvas, event) {
+function getCursorPosition(canvas, event, mouse) {
     const rect = canvas.getBoundingClientRect()
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
-    console.log("x: " + x + " y: " + y)
+    mouse.x = event.clientX - rect.left
+    mouse.y = event.clientY - rect.top
+    console.log("x: " + mouse.x + " y: " + mouse.y)
+    return (mouse)
+
 }
 
 
@@ -57,6 +67,17 @@ const drawPlane = (ctx, target) => {
     ctx.lineTo(target.x4, target.y4)
     ctx.lineTo(target.x1, target.y1)
     ctx.stroke()
+}
+
+const drawPoint= (ctx, point) => {
+    ctx.fillStyle = '#FFFFFF'
+    ctx.fillRect(point.x, point.y, 75, 20)
+    ctx.fillStyle = '#000000'
+    ctx.fillText((point.x.toFixed(0)+", "+point.y.toFixed(0)), point.x + 15, point.y + 13)
+    ctx.fillStyle = '#FF00FF'
+    ctx.beginPath()
+    ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI)
+    ctx.fill()
 }
 
 const drawLabel = (ctx, singeRobotData, robotName) => {
@@ -80,6 +101,8 @@ const drawLabel = (ctx, singeRobotData, robotName) => {
 const Canvas = props => {
     const { robotData, ...rest } = props
     const canvasRef = useRef(null)
+    const [mouse, setMouse] = useState({x:0, y:0})
+
 
 
     useEffect(() => {
@@ -88,7 +111,7 @@ const Canvas = props => {
             const context = canvas.getContext('2d')
             let animationFrameId
             canvas.addEventListener('mousedown', function (e) {
-                getCursorPosition(canvas, e)
+                setMouse(getCursorPosition(canvas, e, mouse))
             })
 
             const draw = (ctx, robotData) => {
@@ -104,7 +127,7 @@ const Canvas = props => {
                     }
                     else { console.log("no robot data") }
                 }
-
+                drawPoint(ctx, mouse)
 
             }
 
@@ -120,7 +143,6 @@ const Canvas = props => {
             }
         }
     }, [robotData])
-
 
 
 
@@ -147,6 +169,10 @@ const Canvas = props => {
 export default function Main() {
 
     const [robotData, setRobotData] = useState(null)
+    const [imgSource, setImgSource] = useState("/arena-480x360.jpg");
+
+
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -167,25 +193,39 @@ export default function Main() {
                     <Canvas robotData={robotData} />
                 </div>
                 <div className={"videoelem"}>
-                    <img src={"/arena-480x360.jpg"} width={854} height={480} alt="video of robots" />
+                    <img src={imgSource} width={854} height={480} alt="video of robots" />
                 </div>
 
             </div>
-            <Grid container spacing={2}>
+
+
                 {robotData && robotData.map((singleRobotData, i) => <InfoBox singleRobotData={singleRobotData} robotName={`Robot${i + 1}`} index={i} key={i} />)}
 
                 {/*
                 <Grid item xs={4}>
                     <Item>Turtle 03<SwitchLabels /></Item>
                 </Grid>
-*/}
+                */}
                 <Grid item xs={12} >
-                    {UI.SourceInput(sourcePlane)}
-                </Grid>
-                <Grid item xs={12} >
-                    {UI.TargetInput(targetPlane)}
-                </Grid>
+                <Item >
+
+                    <TextField
+                        label="Camera / Image Source"
+                        id="cam"
+                        value={imgSource}
+                        size="small"
+                        onChange={e => setImgSource(e.target.value)}
+                        style={{ width: 400 }}
+                    />
+
+                </Item>
             </Grid>
+
+            <Grid item xs={12} >
+                {TransformAcc(sourcePlane, targetPlane)}
+            </Grid>
+
+
         </Container>
     );
 }
