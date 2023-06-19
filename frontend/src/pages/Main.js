@@ -13,15 +13,6 @@ import Paper from "@mui/material/Paper";
 
 const PerspT = require('perspective-transform');
 
-const sourcePlane = { "x1": 1.09, "y1": 0, "x2": 1.06, "y2": 5.10, "x3": 5.10, "y3": 4.68, "x4": 5.36, "y4": 1.15 };
-const targetPlane = { "x1": 60, "y1": 62, "x2": 500, "y2": 54, "x3": 617, "y3": 311, "x4": 143, "y4": 391 };
-
-
-const srcCorners = [sourcePlane.x1, sourcePlane.y1, sourcePlane.x2, sourcePlane.y2, sourcePlane.x3, sourcePlane.y3, sourcePlane.x4, sourcePlane.y4];
-const dstCorners = [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.y2, targetPlane.x3, targetPlane.y3, targetPlane.x4, targetPlane.y4];
-const perspT = PerspT(srcCorners, dstCorners);
-
-
 
 const Item = styled(Paper)(({ theme }) => ({
     //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -80,10 +71,8 @@ const drawPoint= (ctx, point) => {
     ctx.fill()
 }
 
-const drawLabel = (ctx, singeRobotData, robotName) => {
+const drawLabel = (ctx, singeRobotData, robotName, perspT) => {
     const coords = perspT.transform(singeRobotData.pose.position.x, singeRobotData.pose.position.y)
-    //const xcoord = singeRobotData.pose.position.x * 100
-    //const ycoord = singeRobotData.pose.position.y * 100
 
     ctx.fillStyle = '#FFFFFF'
     ctx.fillRect(coords[0], coords[1] - 10, 75, 50)
@@ -99,7 +88,7 @@ const drawLabel = (ctx, singeRobotData, robotName) => {
 
 
 const Canvas = props => {
-    const { robotData, ...rest } = props
+    const { robotData, perspT, targetPlane, ...rest } = props
     const canvasRef = useRef(null)
     const [mouse, setMouse] = useState({x:0, y:0})
 
@@ -123,9 +112,9 @@ const Canvas = props => {
                 drawPlane(ctx, targetPlane)
                 for (let i = 0; i < robotData.length; i++) {
                     if (robotData[i] != null) {
-                        drawLabel(ctx, robotData[i], `Robot${i + 1}`)
+                        drawLabel(ctx, robotData[i], `Robot${i + 1}`, perspT)
                     }
-                    else { console.log("no robot data") }
+                    // else { console.log("no robot data") }
                 }
                 drawPoint(ctx, mouse)
 
@@ -142,7 +131,7 @@ const Canvas = props => {
                 window.cancelAnimationFrame(animationFrameId)
             }
         }
-    }, [robotData])
+    }, [robotData, perspT, targetPlane])
 
 
 
@@ -170,9 +159,19 @@ export default function Main() {
 
     const [robotData, setRobotData] = useState(null)
     const [imgSource, setImgSource] = useState("/arena-480x360.jpg");
+    const [sourcePlane, setSourcePlane] = useState({ "x1": 1.09, "y1": 0, "x2": 1.06, "y2": 5.10, "x3": 5.10, "y3": 4.68, "x4": 5.36, "y4": 1.15 })
+    const [targetPlane, setTargetPlane] = useState({ "x1": 60, "y1": 62, "x2": 500, "y2": 54, "x3": 617, "y3": 311, "x4": 143, "y4": 391 })
+    let perspT = PerspT([sourcePlane.x1, sourcePlane.y1, sourcePlane.x2, sourcePlane.y2, sourcePlane.x3, sourcePlane.y3, sourcePlane.x4, sourcePlane.y4], [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.y2, targetPlane.x3, targetPlane.y3, targetPlane.x4, targetPlane.y4]);
 
+    function handleSource(e) {
+        setSourcePlane(e.target.value);
+        console.log(e.target.value)
+        console.log(sourcePlane)
+    }
 
-
+    function handleTarget(e) {
+        setTargetPlane(e.target.value);
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -190,7 +189,7 @@ export default function Main() {
             <div className={"videocont"}>
 
                 <div className={"canvaselem"}>
-                    <Canvas robotData={robotData} />
+                    <Canvas robotData={robotData} perspT={perspT} targetPlane={targetPlane} />
                 </div>
                 <div className={"videoelem"}>
                     <img src={imgSource} width={854} height={480} alt="video of robots" />
@@ -222,7 +221,7 @@ export default function Main() {
             </Grid>
 
             <Grid item xs={12} >
-                {TransformAcc(sourcePlane, targetPlane)}
+                <TransformAcc sourcePlane={sourcePlane} targetPlane={targetPlane} handleSource={handleSource} handleTarget={handleTarget}/>
             </Grid>
 
 
