@@ -162,8 +162,8 @@ export default function Main() {
 
     const [robotData, setRobotData] = useState(null)
     const [imgSource, setImgSource] = useState("/arena-480x360.jpg");
-    const [sourcePlane, setSourcePlane] = useState({ "x1": 1.09, "y1": 0, "x2": 1.06, "y2": 5.10, "x3": 5.10, "y3": 4.68, "x4": 5.36, "y4": 1.15 })
-    const [targetPlane, setTargetPlane] = useState({ "x1": 60, "y1": 62, "x2": 500, "y2": 54, "x3": 617, "y3": 311, "x4": 143, "y4": 391 })
+    const [sourcePlane, setSourcePlane] = useState({ "x1": 0, "y1": 0, "x2": 0, "y2": 3, "x3": 3, "y3": 0, "x4": 3, "y4": 3 })
+    const [targetPlane, setTargetPlane] = useState({ "x1": 144, "y1": 184, "x2": 380, "y2": 175, "x3": 33, "y3": 299, "x4": 360, "y4": 280 })
     let perspT = PerspT([sourcePlane.x1, sourcePlane.y1, sourcePlane.x2, sourcePlane.y2, sourcePlane.x3, sourcePlane.y3, sourcePlane.x4, sourcePlane.y4], [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.y2, targetPlane.x3, targetPlane.y3, targetPlane.x4, targetPlane.y4]);
 
 
