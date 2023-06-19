@@ -1,15 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-//import FormGroup from '@mui/material/FormGroup';
-//import FormControlLabel from '@mui/material/FormControlLabel';
-//import Switch from '@mui/material/Switch';
 import InfoBox from './Infobox';
 import TransformAcc from './TransformAcc';
 import "./Main.css";
 import TextField from "@mui/material/TextField";
 import {styled} from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Typography from "@mui/material/Typography";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Box from "@mui/material/Box";
 
 const PerspT = require('perspective-transform');
 
@@ -54,8 +57,8 @@ const drawPlane = (ctx, target) => {
     ctx.beginPath()
     ctx.moveTo(target.x1, target.y1)
     ctx.lineTo(target.x2, target.y2)
-    ctx.lineTo(target.x3, target.y3)
     ctx.lineTo(target.x4, target.y4)
+    ctx.lineTo(target.x3, target.y3)
     ctx.lineTo(target.x1, target.y1)
     ctx.stroke()
 }
@@ -163,15 +166,6 @@ export default function Main() {
     const [targetPlane, setTargetPlane] = useState({ "x1": 60, "y1": 62, "x2": 500, "y2": 54, "x3": 617, "y3": 311, "x4": 143, "y4": 391 })
     let perspT = PerspT([sourcePlane.x1, sourcePlane.y1, sourcePlane.x2, sourcePlane.y2, sourcePlane.x3, sourcePlane.y3, sourcePlane.x4, sourcePlane.y4], [targetPlane.x1, targetPlane.y1, targetPlane.x2, targetPlane.y2, targetPlane.x3, targetPlane.y3, targetPlane.x4, targetPlane.y4]);
 
-    function handleSource(e) {
-        setSourcePlane(e.target.value);
-        console.log(e.target.value)
-        console.log(sourcePlane)
-    }
-
-    function handleTarget(e) {
-        setTargetPlane(e.target.value);
-    }
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -214,6 +208,7 @@ export default function Main() {
                         value={imgSource}
                         size="small"
                         onChange={e => setImgSource(e.target.value)}
+
                         style={{ width: 400 }}
                     />
 
@@ -221,7 +216,307 @@ export default function Main() {
             </Grid>
 
             <Grid item xs={12} >
-                <TransformAcc sourcePlane={sourcePlane} targetPlane={targetPlane} handleSource={handleSource} handleTarget={handleTarget}/>
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography>Source points (Coordinates on the arena in meters)</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { m: 2 },
+                                my: 3,
+                            }}
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <Grid container spacing={1} marginBottom={2} alignItems="center">
+
+                                <Grid item xs={6} >
+                                    <Item >Top-left corner
+
+                                        <TextField
+                                            label="Source x1"
+                                            id="sx1"
+                                            value={sourcePlane.x1}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    x1: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Source y1"
+                                            id="sy1"
+                                            value={sourcePlane.y1}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    y1: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+
+                                    </Item>
+                                </Grid>
+                                <Grid item xs={6}   >
+                                    <Item>Top-right corner
+
+                                        <TextField
+                                            label="Source x2"
+                                            id="sx2"
+                                            value={sourcePlane.x2}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    x2: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Source y2"
+                                            id="sy2"
+                                            value={sourcePlane.y2}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    y2: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+
+                                    </Item>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={1}>
+                                <Grid item xs={6} >
+                                    <Item>Bottom-left corner
+                                        <TextField
+                                            label="Source x3"
+                                            id="sx3"
+                                            value={sourcePlane.x3}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    x3: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Source y3"
+                                            id="sy3"
+                                            value={sourcePlane.y3}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    y3: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                    </Item>
+                                </Grid>
+                                <Grid item xs={6} >
+                                    <Item>
+                                        Bottom-right corner
+                                        <TextField
+                                            label="Source x4"
+                                            id="sx4"
+                                            value={sourcePlane.x4}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    x4: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Source y4"
+                                            id="sy4"
+                                            value={sourcePlane.y4}
+                                            onChange={e => {
+                                                setSourcePlane({
+                                                    ...sourcePlane,
+                                                    y4: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                    </Item>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                    >
+                        <Typography>Target points (Coordinates on the image in pixels)</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Box
+                            component="form"
+                            mb={6}
+                            sx={{
+                                '& .MuiTextField-root': { m: 2 },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <Grid container spacing={1} marginBottom={2} alignItems="center">
+                                <Grid item xs={6} >
+                                    <Item>Top-left corner
+
+                                        <TextField
+                                            label="Target x1"
+                                            id="tx1"
+                                            value={targetPlane.x1}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    x1: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Target y1"
+                                            id="ty1"
+                                            value={targetPlane.y1}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    y1: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+
+                                    </Item>
+                                </Grid>
+                                <Grid item xs={6} >
+                                    <Item>Top-right corner
+
+                                        <TextField
+                                            label="Target x2"
+                                            id="tx2"
+                                            value={targetPlane.x2}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    x2: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Target y2"
+                                            id="ty2"
+                                            value={targetPlane.y2}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    y2: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+
+                                    </Item>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={1}>
+                                <Grid item xs={6} >
+                                    <Item>Bottom-left corner
+                                        <TextField
+                                            label="Target x3"
+                                            id="tx3"
+                                            value={targetPlane.x3}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    x3: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Target y3"
+                                            id="ty3"
+                                            value={targetPlane.y3}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    y3: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                    </Item>
+                                </Grid>
+                                <Grid item xs={6} >
+                                    <Item>
+                                        Bottom-right corner
+                                        <TextField
+                                            label="Target x4"
+                                            id="tx4"
+                                            value={targetPlane.x4}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    x4: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                        <TextField
+                                            label="Target y4"
+                                            id="ty4"
+                                            value={targetPlane.y4}
+                                            onChange={e => {
+                                                setTargetPlane({
+                                                    ...targetPlane,
+                                                    y4: e.target.value
+                                                });
+                                            }}
+                                            size="small"
+                                            style={{ width: 100 }}
+                                        />
+                                    </Item>
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </AccordionDetails>
+                </Accordion>
             </Grid>
 
 
